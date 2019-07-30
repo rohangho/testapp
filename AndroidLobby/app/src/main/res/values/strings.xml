@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">AndroidLobby</string>
+    <string name="touch_to_start">Touch to Start</string>
+    <string name="i_am">I am</string>
+
+    <string-array name="role_list">
+        <item>Visitor</item>
+        <item>Came to Delivery</item>
+        <item>Contractor</item>
+        <item>Employee</item>
+        <item>Others</item>
+        <item></item>
+    </string-array>
+</resources>
