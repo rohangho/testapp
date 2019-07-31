@@ -22,20 +22,22 @@ public class DetailofMe extends AppCompatActivity {
     EditText mailOfUser;
     LottieAnimationView submitDetail;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailof_me);
 
+
         Intent intent = getIntent();
         roleOfUser = intent.getStringExtra("role");
 
-        nameOfUser = (EditText) findViewById(R.id.name);
-        companyOfUser = (EditText) findViewById(R.id.companyName);
-        phoneOfUser = (EditText) findViewById(R.id.phone);
-        mailOfUser = (EditText) findViewById(R.id.email);
+        nameOfUser = findViewById(R.id.name);
+        companyOfUser = findViewById(R.id.companyName);
+        phoneOfUser = findViewById(R.id.phone);
+        mailOfUser = findViewById(R.id.email);
 
-        submitDetail = (LottieAnimationView) findViewById(R.id.lottieAnimationViewofSubmit);
+        submitDetail = findViewById(R.id.lottieAnimationViewofSubmit);
         submitDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -46,7 +48,8 @@ public class DetailofMe extends AppCompatActivity {
                     company = companyOfUser.getText().toString();
                     phone = phoneOfUser.getText().toString();
                     email = mailOfUser.getText().toString();
-                    Intent intent = new Intent(getApplicationContext(), TakePicture.class);
+                    Intent intent = new Intent(getApplicationContext(), Authentication.class);
+                    intent.putExtra("phone", phoneOfUser.getText().toString());
                     startActivity(intent);
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 

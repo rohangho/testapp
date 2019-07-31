@@ -2,7 +2,7 @@ package com.example.androidlobby.model;
 
 public class VisitorDetail {
 
-    byte[] img;
+
     String name;
     String role;
     String phoneNumber;
@@ -12,8 +12,8 @@ public class VisitorDetail {
     public VisitorDetail() {
     }
 
-    public VisitorDetail(byte[] img, String name, String role, String phoneNumber, String email, String company) {
-        this.img = img;
+    public VisitorDetail(String name, String role, String phoneNumber, String email, String company) {
+
         this.name = name;
         this.role = role;
         this.phoneNumber = phoneNumber;
@@ -21,13 +21,6 @@ public class VisitorDetail {
         this.company = company;
     }
 
-    public byte[] getImg() {
-        return img;
-    }
-
-    public void setImg(byte[] img) {
-        this.img = img;
-    }
 
     public String getName() {
         return name;

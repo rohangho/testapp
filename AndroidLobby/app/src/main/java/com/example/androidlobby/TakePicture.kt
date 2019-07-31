@@ -21,6 +21,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import com.airbnb.lottie.LottieAnimationView
+import com.google.firebase.storage.FirebaseStorage
 import java.io.ByteArrayOutputStream
 
 
@@ -28,21 +29,29 @@ class TakePicture : AppCompatActivity(), LifecycleOwner {
 
     private val REQUEST_CODE_PERMISSIONS = 10
     private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
+    private lateinit var viewFinder: TextureView
+    private lateinit var submit: LottieAnimationView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_take_picture)
 
+
+
+
         viewFinder = findViewById(R.id.view_finder)
         submit = findViewById(R.id.lottieAnimationViewofSubmit)
 
+
+        callFire()
+
         submit.setOnClickListener {
             val intent = Intent(this, UplaodDocument::class.java)
-            val stream = ByteArrayOutputStream();
-            viewFinder.getBitmap().compress(Bitmap.CompressFormat.PNG, 90, stream);
+            val stream = ByteArrayOutputStream()
+            viewFinder.bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream)
             val image = stream.toByteArray()
-            intent.putExtra("bitmap", image);
+            intent.putExtra("bitmap", image)
             startActivity(intent)
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
@@ -57,8 +66,7 @@ class TakePicture : AppCompatActivity(), LifecycleOwner {
 
     }
 
-    private lateinit var viewFinder: TextureView
-    private lateinit var submit: LottieAnimationView;
+
 
 
     private fun startCamera() {
@@ -147,4 +155,47 @@ class TakePicture : AppCompatActivity(), LifecycleOwner {
                 or View.SYSTEM_UI_FLAG_FULLSCREEN)
     }
 
+
+//    class someTask() : AsyncTask<Void, Void, String>() {
+//
+//
+//        override fun doInBackground(vararg params: Void?): String? {
+//
+//            val storage = FirebaseStorage.getInstance()
+//
+//            val storageRef = storage.reference
+//            val path = storageRef.child(DetailofMe.phone + ".png");
+//            if (path.equals(null))
+//                return "False"
+//            else
+//                return "True"
+//
+//        }
+//
+//
+//        override fun onPostExecute(result: String?) {
+//            super.onPostExecute(result)
+//            if (result.equals("False")) {
+//
+//            }
+//
+//        }
+//    }
+
+    private fun callFire() {
+        val storage = FirebaseStorage.getInstance()
+
+        val storageRef = storage.reference
+        val path = storageRef.child(DetailofMe.phone)
+        path.downloadUrl.addOnSuccessListener {
+            val intent = Intent(this, UplaodDocument::class.java)
+            intent.putExtra("Url", it.path.toString())
+            startActivity(intent)
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+        }.addOnFailureListener {
+            submit.visibility = View.VISIBLE
+        }
+
+
+    }
 }
