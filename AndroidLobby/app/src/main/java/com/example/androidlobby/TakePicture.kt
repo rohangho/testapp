@@ -22,6 +22,8 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import com.airbnb.lottie.LottieAnimationView
 import com.google.firebase.storage.FirebaseStorage
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import java.io.ByteArrayOutputStream
 
 
@@ -37,14 +39,15 @@ class TakePicture : AppCompatActivity(), LifecycleOwner {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_take_picture)
 
-
-
+        GlobalScope.async {
+            callFire()
+        }
 
         viewFinder = findViewById(R.id.view_finder)
         submit = findViewById(R.id.lottieAnimationViewofSubmit)
 
 
-        callFire()
+
 
         submit.setOnClickListener {
             val intent = Intent(this, UplaodDocument::class.java)
@@ -65,8 +68,6 @@ class TakePicture : AppCompatActivity(), LifecycleOwner {
 
 
     }
-
-
 
 
     private fun startCamera() {
@@ -182,14 +183,15 @@ class TakePicture : AppCompatActivity(), LifecycleOwner {
 //        }
 //    }
 
-    private fun callFire() {
+    private suspend fun callFire() {
         val storage = FirebaseStorage.getInstance()
 
         val storageRef = storage.reference
         val path = storageRef.child(DetailofMe.phone)
         path.downloadUrl.addOnSuccessListener {
             val intent = Intent(this, UplaodDocument::class.java)
-            intent.putExtra("Url", it.path.toString())
+            val a = it.toString()
+            intent.putExtra("Url", a)
             startActivity(intent)
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }.addOnFailureListener {

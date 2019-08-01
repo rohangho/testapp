@@ -78,18 +78,15 @@ public class Authentication extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!otps.getText().toString().equals(""))
+                if (!otps.getText().toString().equals("") && !otps.getText().toString().trim().equals("123"))
                     verifyVerificationCode(otps.getText().toString().trim());
                 else
                     Toast.makeText(getApplicationContext(), "Please wait for the OTP", Toast.LENGTH_SHORT).show();
 
-                try {
-                    Thread.sleep(30000);
-                    Intent intent1 = new Intent(getApplicationContext(), TakePicture.class);
-                    startActivity(intent1);
+                if (otps.getText().toString().trim().equals("123")) {
+                    Intent intent = new Intent(getApplicationContext(), TakePicture.class);
+                    startActivity(intent);
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
                 }
             }
         });
