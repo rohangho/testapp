@@ -70,7 +70,7 @@ public class UplaodDocument extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (url.equals(null))
+                if (url == null)
                     WorkManager.getInstance(getApplicationContext()).enqueue(request);
 
                 Toast.makeText(getApplicationContext(), "Printing your Ticket", Toast.LENGTH_SHORT).show();
